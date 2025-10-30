@@ -29,7 +29,7 @@
             --cor-alerta: #f59e0b;
             
             /* Nome da empresa - altere aqui */
-            --nome-empresa: "AGE Gestão Empresarial";
+            --nome-empresa: "Contabilidade Exemplo";
         }
 
         * {
@@ -504,7 +504,7 @@
         <div class="header-content">
             <div class="logo-section">
                 <!-- SUBSTITUA ESTE DIV POR: <img src="sua-logo.png" alt="Logo" class="logo"> -->
-                <img src ="https://ageconsultoria.com.br/wp-content/webp-express/webp-images/uploads/2025/05/SEM-TAGLINE-CLARO.png.webp" alt="Logo" class="logo" style="max-height: 40px; max-width: 100px;">
+                <img src="https://ageconsultoria.com.br/wp-content/webp-express/webp-images/uploads/2025/05/SEM-TAGLINE-CLARO.png.webp" lt="Logo" class="logo" style="max-height: 40px; max-width: 100px;">
                 <div class="company-name" id="companyName">Contabilidade Exemplo</div>
             </div>
             <div class="header-actions">
@@ -719,19 +719,9 @@
     </div>
 
     <!-- ============================================
-         INTEGRAÇÃO COM CHATWOOT
+         INTEGRAÇÃO COM CHATWOOT - COLE SEU CÓDIGO AQUI
          ============================================ -->
     <script>
-        // ====== CONFIGURAÇÃO DO CHATWOOT ======
-        // PASSO 1: Substitua estas variáveis com suas informações do Chatwoot
-        const CHATWOOT_CONFIG = {
-            websiteToken: 'dT9HHTv3oBkcCyHQXHrvxNuD', // Token do seu inbox no Chatwoot
-            baseUrl: 'https://chatwoot.iuptec.com.br', // URL da sua instância Chatwoot
-            position: 'right', // Posição do widget: 'left' ou 'right'
-            locale: 'pt_BR', // Idioma
-            type: 'standard' // Tipo: 'standard' ou 'expanded_bubble'
-        };
-
         // ====== CONFIGURAÇÃO DA EMPRESA ======
         const COMPANY_CONFIG = {
             name: 'AGE Gestão Empresarial', // ALTERE AQUI o nome da empresa
@@ -741,38 +731,32 @@
         // Aplicar nome da empresa
         document.getElementById('companyName').textContent = COMPANY_CONFIG.name;
         document.getElementById('companyNameFooter').textContent = COMPANY_CONFIG.name;
+    </script>
 
-        // ====== SCRIPT DE INTEGRAÇÃO CHATWOOT ======
-        (function(d,t) {
-            try {
-                var BASE_URL = CHATWOOT_CONFIG.baseUrl;
-                
-                // Verifica se a configuração está completa
-                if (!CHATWOOT_CONFIG.websiteToken || CHATWOOT_CONFIG.websiteToken === 'SEU_WEBSITE_TOKEN_AQUI') {
-                    console.warn('⚠️ Chatwoot não configurado. Configure o websiteToken no código.');
-                    return;
-                }
-                
-                var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-                g.src=BASE_URL+"/packs/js/sdk.js";
-                g.defer = true;
-                g.async = true;
-                s.parentNode.insertBefore(g,s);
-                g.onload=function(){
-                    window.chatwootSDK.run({
-                        websiteToken: CHATWOOT_CONFIG.websiteToken,
-                        baseUrl: BASE_URL
-                    })
-                }
-                g.onerror=function(){
-                    console.warn('⚠️ Erro ao carregar Chatwoot. Verifique a URL da instância.');
-                }
-            } catch(e) {
-                console.error('Erro ao inicializar Chatwoot:', e);
-            }
-        })(document,"script");
+    <!-- ============================================
+         📌 CÓDIGO DO CHATWOOT INSERIDO 📌
+         ============================================ -->
+    
+    <!-- 👇 CÓDIGO DO CHATWOOT 👇 -->
+    <script>
+      (function(d,t) {
+        var BASE_URL="https://chatwoot.iuptec.com.br";
+        var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src=BASE_URL+"/packs/js/sdk.js";
+        g.defer = true;
+        g.async = true;
+        s.parentNode.insertBefore(g,s);
+        g.onload=function(){
+          window.chatwootSDK.run({
+            websiteToken: 'cQsTjXcA15bhNLHZFH7FowLW',
+            baseUrl: BASE_URL
+          })
+        }
+      })(document,"script");
+    </script>
+    <!-- 👆 CÓDIGO DO CHATWOOT 👆 -->
 
-        // ====== FUNÇÕES DE CONTROLE DO CHAT ======
+    <script>
         function abrirChat() {
             // Aguarda o Chatwoot estar disponível
             if (window.$chatwoot) {
