@@ -29,7 +29,7 @@
             --cor-alerta: #f59e0b;
             
             /* Nome da empresa - altere aqui */
-            --nome-empresa: "Contabilidade Exemplo";
+            --nome-empresa: "AGE Gestão Empresarial";
         }
 
         * {
@@ -75,17 +75,28 @@
         }
 
         .logo {
+            max-width: 120px;
+            max-height: 50px;
+            height: auto;
+            object-fit: contain;
+            border-radius: 5px;
+            /* Se for usar a letra, adicione: */
+            /* width: 50px; height: 50px; background: white; 
+               display: flex; align-items: center; justify-content: center;
+               font-size: 1.5rem; color: var(--cor-primaria); font-weight: bold; */
+        }
+        
+        /* Caso esteja usando DIV com letra ao invés de IMG */
+        .logo:not(img) {
             width: 50px;
             height: 50px;
             background: white;
-            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
             color: var(--cor-primaria);
             font-weight: bold;
-            /* Substitua por <img src="logo.png" alt="Logo" class="logo"> */
         }
 
         .company-name {
@@ -493,8 +504,8 @@
         <div class="header-content">
             <div class="logo-section">
                 <!-- SUBSTITUA ESTE DIV POR: <img src="sua-logo.png" alt="Logo" class="logo"> -->
-                <img src="https://ageconsultoria.com.br/wp-content/webp-express/webp-images/uploads/2025/05/SEM-TAGLINE-CLARO.png.webp" alt="Logo" class="Logo">
-                <div class="company-name" id="companyName">AGE Gestão Empresarial</div>
+                <img src ="https://ageconsultoria.com.br/wp-content/webp-express/webp-images/uploads/2025/05/SEM-TAGLINE-CLARO.png.webp" alt="Logo" class="logo" style="max-height: 40px; max-width: 100px;">
+                <div class="company-name" id="companyName">Contabilidade Exemplo</div>
             </div>
             <div class="header-actions">
                 <button class="btn-chat" onclick="abrirChat()">
@@ -715,7 +726,7 @@
         // PASSO 1: Substitua estas variáveis com suas informações do Chatwoot
         const CHATWOOT_CONFIG = {
             websiteToken: 'dT9HHTv3oBkcCyHQXHrvxNuD', // Token do seu inbox no Chatwoot
-            baseUrl: 'https://chatwoot.iuptec.com.br/', // URL da sua instância Chatwoot
+            baseUrl: 'https://chatwoot.iuptec.com.br', // URL da sua instância Chatwoot
             position: 'right', // Posição do widget: 'left' ou 'right'
             locale: 'pt_BR', // Idioma
             type: 'standard' // Tipo: 'standard' ou 'expanded_bubble'
@@ -763,26 +774,60 @@
 
         // ====== FUNÇÕES DE CONTROLE DO CHAT ======
         function abrirChat() {
+            // Aguarda o Chatwoot estar disponível
             if (window.$chatwoot) {
-                window.$chatwoot.toggle();
+                window.$chatwoot.toggle('open');
+            } else if (window.chatwootSDK) {
+                // Tenta inicializar novamente
+                setTimeout(abrirChat, 500);
             } else {
-                alert('Chatwoot ainda está carregando. Por favor, aguarde alguns segundos e tente novamente.');
+                console.warn('Chatwoot não está disponível');
+                alert('O chat está sendo carregado. Por favor, aguarde alguns segundos e tente novamente.');
             }
         }
 
         function abrirChatComMensagem(mensagem) {
+            // Aguarda o Chatwoot estar disponível
             if (window.$chatwoot) {
+                // Abre o chat
                 window.$chatwoot.toggle('open');
-                // Aguarda o chat abrir e então envia a mensagem
+                
+                // Aguarda e envia a mensagem
                 setTimeout(function() {
-                    if (window.$chatwoot.setCustomAttributes) {
-                        window.$chatwoot.setCustomAttributes({
-                            mensagemInicial: mensagem
-                        });
+                    try {
+                        // Tenta preencher o campo de mensagem
+                        const chatInput = document.querySelector('.input-group-text, [contenteditable="true"], textarea');
+                        if (chatInput) {
+                            if (chatInput.tagName === 'TEXTAREA') {
+                                chatInput.value = mensagem;
+                            } else {
+                                chatInput.textContent = mensagem;
+                            }
+                            
+                            // Dispara evento de input
+                            chatInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            chatInput.focus();
+                        }
+                        
+                        // Define atributo customizado
+                        if (window.$chatwoot.setCustomAttributes) {
+                            window.$chatwoot.setCustomAttributes({
+                                mensagemInicial: mensagem,
+                                origem: 'site_suporte'
+                            });
+                        }
+                    } catch (e) {
+                        console.log('Não foi possível preencher a mensagem automaticamente:', e);
                     }
+                }, 1000);
+            } else if (window.chatwootSDK) {
+                // Se o SDK existe mas $chatwoot não, aguarda
+                setTimeout(function() {
+                    abrirChatComMensagem(mensagem);
                 }, 500);
             } else {
-                alert('Chatwoot ainda está carregando. Por favor, aguarde alguns segundos e tente novamente.');
+                console.warn('Chatwoot não está disponível');
+                alert('O chat está sendo carregado. Por favor, aguarde alguns segundos e tente novamente.');
             }
         }
 
