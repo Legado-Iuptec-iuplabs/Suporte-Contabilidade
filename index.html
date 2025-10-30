@@ -2,9 +2,16 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Central de Atendimento - Contabilidade</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
+    <script>
+        // Verificação de carregamento do FontAwesome
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Página carregada com sucesso!');
+        });
+    </script>
     <style>
         /* ============================================
            VARIÁVEIS DE CUSTOMIZAÇÃO
@@ -726,17 +733,31 @@
 
         // ====== SCRIPT DE INTEGRAÇÃO CHATWOOT ======
         (function(d,t) {
-            var BASE_URL = CHATWOOT_CONFIG.baseUrl;
-            var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-            g.src=BASE_URL+"/packs/js/sdk.js";
-            g.defer = true;
-            g.async = true;
-            s.parentNode.insertBefore(g,s);
-            g.onload=function(){
-                window.chatwootSDK.run({
-                    websiteToken: CHATWOOT_CONFIG.websiteToken,
-                    baseUrl: BASE_URL
-                })
+            try {
+                var BASE_URL = CHATWOOT_CONFIG.baseUrl;
+                
+                // Verifica se a configuração está completa
+                if (!CHATWOOT_CONFIG.websiteToken || CHATWOOT_CONFIG.websiteToken === 'SEU_WEBSITE_TOKEN_AQUI') {
+                    console.warn('⚠️ Chatwoot não configurado. Configure o websiteToken no código.');
+                    return;
+                }
+                
+                var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+                g.src=BASE_URL+"/packs/js/sdk.js";
+                g.defer = true;
+                g.async = true;
+                s.parentNode.insertBefore(g,s);
+                g.onload=function(){
+                    window.chatwootSDK.run({
+                        websiteToken: CHATWOOT_CONFIG.websiteToken,
+                        baseUrl: BASE_URL
+                    })
+                }
+                g.onerror=function(){
+                    console.warn('⚠️ Erro ao carregar Chatwoot. Verifique a URL da instância.');
+                }
+            } catch(e) {
+                console.error('Erro ao inicializar Chatwoot:', e);
             }
         })(document,"script");
 
