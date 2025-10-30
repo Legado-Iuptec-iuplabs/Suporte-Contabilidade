@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central de Atendimento - Contabilidade</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ============================================
+           VARIÁVEIS DE CUSTOMIZAÇÃO
+           Altere estas variáveis para personalizar
+           ============================================ */
+        :root {
+            --cor-primaria: #2563eb;
+            --cor-secundaria: #1e40af;
+            --cor-destaque: #3b82f6;
+            --cor-texto: #1f2937;
+            --cor-texto-claro: #6b7280;
+            --cor-fundo: #f9fafb;
+            --cor-card: #ffffff;
+            --cor-sucesso: #10b981;
+            --cor-alerta: #f59e0b;
+            
+            /* Nome da empresa - altere aqui */
+            --nome-empresa: "Contabilidade Exemplo";
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           HEADER
+           ============================================ */
+        .header {
+            background: linear-gradient(135deg, var(--cor-primaria) 0%, var(--cor-secundaria) 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--cor-primaria);
+            font-weight: bold;
+            /* Substitua por <img src="logo.png" alt="Logo" class="logo"> */
+        }
+
+        .company-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            /* O nome será inserido via JavaScript */
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-chat {
+            background: white;
+            color: var(--cor-primaria);
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-chat:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        /* ============================================
+           HERO SECTION
+           ============================================ */
+        .hero {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(30, 64, 175, 0.05) 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--cor-primaria);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--cor-texto-claro);
+            margin-bottom: 2rem;
+        }
+
+        /* ============================================
+           SERVIÇOS RÁPIDOS
+           ============================================ */
+        .services-section {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--cor-texto);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--cor-texto-claro);
+            margin-bottom: 3rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .service-card {
+            background: var(--cor-card);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+            border-color: var(--cor-primaria);
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--cor-primaria), var(--cor-destaque));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--cor-texto);
+        }
+
+        .service-card p {
+            color: var(--cor-texto-claro);
+            font-size: 0.95rem;
+        }
+
+        /* ============================================
+           NOVIDADES E AVISOS
+           ============================================ */
+        .news-section {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .news-card {
+            background: var(--cor-card);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+            transition: all 0.3s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+        }
+
+        .news-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--cor-primaria);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .news-content {
+            padding: 1.5rem;
+        }
+
+        .news-date {
+            color: var(--cor-texto-claro);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .news-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            color: var(--cor-texto);
+        }
+
+        .news-card p {
+            color: var(--cor-texto-claro);
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           FAQ RÁPIDO
+           ============================================ */
+        .faq-section {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .faq-item {
+            background: var(--cor-card);
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--cor-texto-claro);
+            display: none;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-icon.active {
+            transform: rotate(180deg);
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            background: var(--cor-texto);
+            color: white;
+            padding: 3rem 2rem 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: var(--cor-destaque);
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--cor-primaria);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* ============================================
+           BOTÃO FLUTUANTE DE CHAT
+           ============================================ */
+        .chat-float-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--cor-primaria), var(--cor-destaque));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .chat-float-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+
+        .chat-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* ============================================
+           RESPONSIVIDADE
+           ============================================ */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .header-content {
+                justify-content: center;
+                text-align: center;
+            }
+
+            .company-name {
+                font-size: 1.2rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chat-float-button {
+                bottom: 20px;
+                right: 20px;
+                width: 55px;
+                height: 55px;
+            }
+        }
+
+        /* ============================================
+           ANIMAÇÕES
+           ============================================ */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <!-- SUBSTITUA ESTE DIV POR: <img src="sua-logo.png" alt="Logo" class="logo"> -->
+                <div class="logo">C</div>
+                <div class="company-name" id="companyName">Contabilidade Exemplo</div>
+            </div>
+            <div class="header-actions">
+                <button class="btn-chat" onclick="abrirChat()">
+                    <i class="fas fa-comment-dots"></i>
+                    Falar com Atendente
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content fade-in-up">
+            <h1>Central de Atendimento</h1>
+            <p>Estamos aqui para ajudar você! Tire suas dúvidas, solicite serviços e acompanhe novidades da nossa contabilidade.</p>
+        </div>
+    </section>
+
+    <!-- SERVIÇOS RÁPIDOS -->
+    <section class="services-section">
+        <h2 class="section-title">Como podemos ajudar?</h2>
+        <p class="section-subtitle">Escolha o tipo de atendimento que você precisa</p>
+        
+        <div class="services-grid">
+            <div class="service-card" onclick="abrirChatComMensagem('Olá! Gostaria de solicitar um recálculo.')">
+                <div class="service-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <h3>Solicitar Recálculo</h3>
+                <p>Precisa de recálculos de impostos, contribuições ou outros valores? Estamos prontos para ajudar.</p>
+            </div>
+
+            <div class="service-card" onclick="abrirChatComMensagem('Olá! Preciso de uma guia.')">
+                <div class="service-icon">
+                    <i class="fas fa-file-invoice"></i>
+                </div>
+                <h3>Emissão de Guias</h3>
+                <p>Solicite a emissão de guias de impostos, contribuições e demais obrigações fiscais.</p>
+            </div>
+
+            <div class="service-card" onclick="abrirChatComMensagem('Olá! Tenho dúvidas sobre a folha de pagamento.')">
+                <div class="service-icon">
+                    <i class="fas fa-money-check-alt"></i>
+                </div>
+                <h3>Folha de Pagamento</h3>
+                <p>Dúvidas sobre holerites, encargos, férias ou 13º salário? Fale conosco.</p>
+            </div>
+
+            <div class="service-card" onclick="abrirChatComMensagem('Olá! Tenho uma dúvida.')">
+                <div class="service-icon">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <h3>Esclarecer Dúvidas</h3>
+                <p>Tem alguma dúvida sobre nossos serviços ou questões contábeis? Pergunte-nos!</p>
+            </div>
+
+            <div class="service-card" onclick="abrirChatComMensagem('Olá! Gostaria de solicitar um serviço.')">
+                <div class="service-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <h3>Outros Serviços</h3>
+                <p>Certidões, alterações contratuais, consultorias e demais serviços contábeis.</p>
+            </div>
+
+            <div class="service-card" onclick="abrirChatComMensagem('Olá! Preciso de atendimento urgente.')">
+                <div class="service-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>Atendimento Urgente</h3>
+                <p>Situações urgentes que precisam de atenção imediata? Fale conosco agora.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- NOVIDADES E AVISOS -->
+    <section class="news-section">
+        <h2 class="section-title">Novidades e Avisos Importantes</h2>
+        <p class="section-subtitle">Fique por dentro das últimas atualizações</p>
+        
+        <div class="news-grid">
+            <div class="news-card">
+                <div class="news-badge">NOVO</div>
+                <div class="news-content">
+                    <div class="news-date">
+                        <i class="fas fa-calendar"></i> 25 de Outubro, 2025
+                    </div>
+                    <h3>Novas Obrigações Fiscais 2025</h3>
+                    <p>Fique atento aos novos prazos e obrigações fiscais para o ano de 2025. Nossa equipe está preparada para auxiliá-lo em todas as mudanças.</p>
+                </div>
+            </div>
+
+            <div class="news-card">
+                <div class="news-badge" style="background: var(--cor-alerta);">IMPORTANTE</div>
+                <div class="news-content">
+                    <div class="news-date">
+                        <i class="fas fa-calendar"></i> 20 de Outubro, 2025
+                    </div>
+                    <h3>Prazo para Declarações</h3>
+                    <p>Lembrete: O prazo para entrega de declarações do terceiro trimestre se aproxima. Entre em contato para garantir o cumprimento das obrigações.</p>
+                </div>
+            </div>
+
+            <div class="news-card">
+                <div class="news-badge" style="background: var(--cor-sucesso);">DICA</div>
+                <div class="news-content">
+                    <div class="news-date">
+                        <i class="fas fa-calendar"></i> 15 de Outubro, 2025
+                    </div>
+                    <h3>Planejamento Tributário</h3>
+                    <p>É hora de planejar o fechamento do ano! Agende uma consulta para otimizar seus tributos e garantir economia fiscal.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ RÁPIDO -->
+    <section class="faq-section">
+        <h2 class="section-title">Perguntas Frequentes</h2>
+        <p class="section-subtitle">Respostas rápidas para dúvidas comuns</p>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <span>Qual o horário de atendimento?</span>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                Nosso atendimento funciona de segunda a sexta-feira, das 8h às 18h. Fora deste horário, você pode deixar sua mensagem e retornaremos assim que possível.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <span>Como solicito documentos?</span>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                Você pode solicitar documentos diretamente pelo chat clicando no botão "Falar com Atendente" ou nos cards de atendimento acima. Nossa equipe providenciará o documento solicitado no menor tempo possível.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <span>Quanto tempo leva para receber resposta?</span>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                Durante o horário comercial, nosso tempo médio de resposta é de 15 a 30 minutos. Solicitações mais complexas podem levar até 24 horas úteis para serem totalmente resolvidas.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <span>Posso acompanhar minhas solicitações?</span>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                Sim! Pelo chat você pode consultar o status de suas solicitações anteriores. Nossa equipe mantém todo o histórico de atendimento disponível para você.
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Sobre Nós</h4>
+                <p>Somos uma contabilidade comprometida em oferecer soluções eficientes e personalizadas para nossos clientes.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Contato</h4>
+                <p><i class="fas fa-phone"></i> (00) 0000-0000</p>
+                <p><i class="fas fa-envelope"></i> contato@exemplo.com.br</p>
+                <p><i class="fas fa-map-marker-alt"></i> Endereço da empresa</p>
+            </div>
+
+            <div class="footer-section">
+                <h4>Serviços</h4>
+                <a href="#">Contabilidade</a>
+                <a href="#">Departamento Pessoal</a>
+                <a href="#">Fiscal e Tributário</a>
+                <a href="#">Consultoria</a>
+                <a href="#">Legalização</a>
+            </div>
+
+            <div class="footer-section">
+                <h4>Atendimento</h4>
+                <p>Segunda a Sexta<br>08:00 - 18:00</p>
+                <button class="btn-chat" onclick="abrirChat()" style="margin-top: 1rem;">
+                    <i class="fas fa-comment-dots"></i>
+                    Iniciar Chat
+                </button>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 <span id="companyNameFooter">Contabilidade Exemplo</span>. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- BOTÃO FLUTUANTE DE CHAT -->
+    <div class="chat-float-button" onclick="abrirChat()">
+        <i class="fas fa-comments"></i>
+        <span class="chat-badge" id="chatBadge" style="display: none;">1</span>
+    </div>
+
+    <!-- ============================================
+         INTEGRAÇÃO COM CHATWOOT
+         ============================================ -->
+    <script>
+        // ====== CONFIGURAÇÃO DO CHATWOOT ======
+        // PASSO 1: Substitua estas variáveis com suas informações do Chatwoot
+        const CHATWOOT_CONFIG = {
+            websiteToken: 'SEU_WEBSITE_TOKEN_AQUI', // Token do seu inbox no Chatwoot
+            baseUrl: 'https://sua-instancia.chatwoot.com', // URL da sua instância Chatwoot
+            position: 'right', // Posição do widget: 'left' ou 'right'
+            locale: 'pt_BR', // Idioma
+            type: 'standard' // Tipo: 'standard' ou 'expanded_bubble'
+        };
+
+        // ====== CONFIGURAÇÃO DA EMPRESA ======
+        const COMPANY_CONFIG = {
+            name: 'Contabilidade Exemplo', // ALTERE AQUI o nome da empresa
+            logo: 'C' // ALTERE para o caminho da logo: 'img/logo.png' ou mantenha a letra
+        };
+
+        // Aplicar nome da empresa
+        document.getElementById('companyName').textContent = COMPANY_CONFIG.name;
+        document.getElementById('companyNameFooter').textContent = COMPANY_CONFIG.name;
+
+        // ====== SCRIPT DE INTEGRAÇÃO CHATWOOT ======
+        (function(d,t) {
+            var BASE_URL = CHATWOOT_CONFIG.baseUrl;
+            var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src=BASE_URL+"/packs/js/sdk.js";
+            g.defer = true;
+            g.async = true;
+            s.parentNode.insertBefore(g,s);
+            g.onload=function(){
+                window.chatwootSDK.run({
+                    websiteToken: CHATWOOT_CONFIG.websiteToken,
+                    baseUrl: BASE_URL
+                })
+            }
+        })(document,"script");
+
+        // ====== FUNÇÕES DE CONTROLE DO CHAT ======
+        function abrirChat() {
+            if (window.$chatwoot) {
+                window.$chatwoot.toggle();
+            } else {
+                alert('Chatwoot ainda está carregando. Por favor, aguarde alguns segundos e tente novamente.');
+            }
+        }
+
+        function abrirChatComMensagem(mensagem) {
+            if (window.$chatwoot) {
+                window.$chatwoot.toggle('open');
+                // Aguarda o chat abrir e então envia a mensagem
+                setTimeout(function() {
+                    if (window.$chatwoot.setCustomAttributes) {
+                        window.$chatwoot.setCustomAttributes({
+                            mensagemInicial: mensagem
+                        });
+                    }
+                }, 500);
+            } else {
+                alert('Chatwoot ainda está carregando. Por favor, aguarde alguns segundos e tente novamente.');
+            }
+        }
+
+        // ====== FUNÇÕES DO FAQ ======
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('.faq-icon');
+            
+            // Fecha todas as outras respostas
+            document.querySelectorAll('.faq-answer').forEach(item => {
+                if (item !== answer) {
+                    item.classList.remove('active');
+                }
+            });
+            
+            document.querySelectorAll('.faq-icon').forEach(item => {
+                if (item !== icon) {
+                    item.classList.remove('active');
+                }
+            });
+            
+            // Toggle da resposta atual
+            answer.classList.toggle('active');
+            icon.classList.toggle('active');
+        }
+
+        // ====== ANIMAÇÕES NA ROLAGEM ======
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-up');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.service-card, .news-card, .faq-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // ====== BADGE DE NOTIFICAÇÃO (OPCIONAL) ======
+        // Você pode usar isso para mostrar notificações não lidas
+        function mostrarBadgeChat(numero) {
+            const badge = document.getElementById('chatBadge');
+            if (numero > 0) {
+                badge.textContent = numero;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        // Exemplo de uso: mostrarBadgeChat(3);
+    </script>
+
+    <!-- ============================================
+         INSTRUÇÕES PARA CUSTOMIZAÇÃO
+         ============================================
+         
+         1. ALTERAR NOME DA EMPRESA:
+            - Linha 478: COMPANY_CONFIG.name = 'Seu Nome Aqui'
+         
+         2. ALTERAR LOGO:
+            - Substitua a div com class="logo" (linha 371) por:
+              <img src="caminho/da/sua/logo.png" alt="Logo" class="logo">
+         
+         3. CONFIGURAR CHATWOOT:
+            - Linha 469: websiteToken - Cole o token do seu inbox
+            - Linha 470: baseUrl - Cole a URL da sua instância
+         
+         4. ALTERAR CORES:
+            - Linhas 14-21: Variáveis CSS (--cor-primaria, etc)
+         
+         5. EDITAR CONTEÚDO:
+            - Novidades: Seção começando na linha 298
+            - FAQ: Seção começando na linha 339
+            - Footer: Seção começando na linha 374
+         
+         6. ADICIONAR MAIS SERVIÇOS:
+            - Copie um dos blocos .service-card (linhas 263-268)
+            - Altere o ícone, título e descrição
+            - Veja ícones disponíveis em: fontawesome.com/icons
+         
+         ============================================ -->
+</body>
+</html>
